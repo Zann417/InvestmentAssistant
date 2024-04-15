@@ -1,0 +1,62 @@
+﻿<Page x:Class="InvestmentAssistant.Pages.PrimaryInvestmentPortfolioPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:InvestmentAssistant.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PrimaryInvestmentPortfolioPage">
+
+    <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}">
+        <Grid>
+            <!-- Определение размеров столбцов -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1.5*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Определение размеров строк -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.RowSpan="14"
+                    Background="#FFFAF9FF" 
+                    Margin="5" CornerRadius="10"
+                    BorderBrush="#FFEDE9FF"
+                    BorderThickness="2"/>
+            <TextBlock Grid.Row="0" Text="Капитал (в рублях)" FontWeight="Heavy" FontSize="18" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS" Margin="12,10,0,0" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="capitalTextBox" PreviewTextInput="capitalTextBox_PreviewTextInput" Grid.Row="1" Margin="10,0,10,0"  BorderBrush="#B2370E66" FontSize="18" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="2" Text="Цель инвестирования" FontWeight="Heavy" FontSize="18" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS" Margin="12,0,0,0" VerticalAlignment="Bottom"/>
+            <ComboBox x:Name="investmentGoalComboBox" SelectionChanged="investmentGoalComboBox_SelectionChanged" Grid.Row="3" Margin="10,0,10,0"  BorderBrush="#B2370E66" FontSize="18" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="4" Text="Инвестиционный горизонт" FontWeight="Heavy" FontSize="18" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS" Margin="12,0,0,0" VerticalAlignment="Bottom"/>
+            <ComboBox x:Name="investmentHorizonComboBox" SelectionChanged="investmentHorizonComboBox_SelectionChanged"  Grid.Row="5" Margin="10,0,10,0"  BorderBrush="#B2370E66" FontSize="18" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="6" Text="Учет рисков" FontWeight="Heavy" FontSize="16" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS" Margin="12,0,0,0" VerticalAlignment="Bottom"/>
+            <ComboBox x:Name="riskAccountingComboBox" SelectionChanged="riskAccountingComboBox_SelectionChanged"  Grid.Row="7" Margin="10,0,10,0"  BorderBrush="#B2370E66" FontSize="18" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="8" Text="Ожидаемая доходность" FontWeight="Heavy" FontSize="18" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS" Margin="12,0,0,0" VerticalAlignment="Bottom"/>
+            <ComboBox x:Name="expectedReturnComboBox" SelectionChanged="expectedReturnComboBox_SelectionChanged"  Grid.Row="9" Margin="10,0,10,0"  BorderBrush="#B2370E66" FontSize="18" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="10" Text="Предложенная стретегия:" FontWeight="Heavy" FontSize="18" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS" Margin="12,0,0,0" VerticalAlignment="Bottom"/>
+            <TextBlock x:Name="strategyTextBlock" Text="" Grid.Row="11" FontSize="18" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS" Margin="12,0,0,0" VerticalAlignment="Top"/>
+            <Button Grid.Row="12" Click="Button_Click" Grid.RowSpan="2"  Content="Расчёт" Background="#FF795BFF" BorderBrush="#FF885ED3" Foreground="White" Margin="25" />
+
+            <ProgressBar Visibility="Hidden" Grid.Row="0" Grid.RowSpan="9" Grid.Column="1"  x:Name="progressBar" Minimum="0" Maximum="100" Margin="15" />
+            <DataGrid x:Name="investmentPortfolioDataGrid" Grid.Column="1" Visibility="Collapsed" Grid.Row="0" Grid.RowSpan="9"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Margin="5" BorderBrush="#B2370E66" IsReadOnly="True" />
+            <Button x:Name="savePDFButton" Click="savePDFButton_Click" Grid.Row="10" Visibility="Hidden" Grid.Column="1"  Content="Сохранить в .PDF" Background="#FF795BFF" BorderBrush="#FF885ED3" Foreground="White" Margin="5" />
+            <Button x:Name="saveXLXSButton" Click="saveXLXSButton_Click" Grid.Row="11" Visibility="Hidden" Grid.Column="1"  Content="Сохранить в .XLXS" Background="#FF795BFF" BorderBrush="#FF885ED3" Foreground="White" Margin="5" />
+        </Grid>
+    </Border>
+</Page>

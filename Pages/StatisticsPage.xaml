@@ -1,0 +1,164 @@
+﻿<Page x:Class="InvestmentAssistant.Pages.StatisticsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="StatisticsPage">
+
+    <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}">
+        <Grid>
+            <!-- Определение размеров столбцов -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Определение размеров строк -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+
+            <!--В данном поле отображается график изменения цены выбранной акции-->
+            <Border  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                     Background="#FFFAF9FF" 
+                     Margin="5" CornerRadius="10"
+                     BorderBrush="#FFEDE9FF"
+                     BorderThickness="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="1.5*" />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="6*" />
+                    </Grid.RowDefinitions>
+                    <ComboBox  Grid.Row="0" Grid.Column="0" 
+                            Style="{StaticResource MaterialDesignComboBox}"
+                               x:Name="autoComboBox" 
+                               Margin="10,0,15,0"
+                               FontSize="22"
+                               MaxHeight="40"
+                               PreviewKeyDown="autoComboBox_PreviewKeyDown"
+                               PreviewTextInput="autoComboBox_PreviewTextInput"
+                               MouseLeftButtonUp="autoComboBox_MouseLeftButtonUp"
+                               VerticalAlignment="Top" Background="{x:Null}" BorderBrush="#B2370E66"
+                                         />
+                    <StackPanel Grid.Row="0" Grid.Column="1">
+                        <DatePicker x:Name="startDatePicker" DisplayDateStart="2015-01-01" DisplayDateEnd="{x:Static sys:DateTime.Today}" Height="20" Width="15" HorizontalAlignment="Left"   VerticalAlignment="Stretch" ToolTip="Начальная дата" SelectedDateChanged="startDatePicker_SelectedDateChanged" BorderBrush="#99370E66"/>
+                        <DatePicker x:Name="endDatePicker"  DisplayDateStart="2015-01-01" DisplayDateEnd="{x:Static sys:DateTime.Today}"  Height="20" Width="15" HorizontalAlignment="Left"     VerticalAlignment="Stretch" ToolTip="Конечная дата" SelectedDateChanged="endDatePicker_SelectedDateChanged" BorderBrush="#99370E66"/>
+                    </StackPanel>
+                    <Button Grid.Row="0" Grid.Column="2" x:Name="downloadStockPriceChart" Content="Загрузить график" Margin="15,0,5,0" Background="#FF795BFF" BorderBrush="#FF885ED3" Foreground="White" Click="downloadStockPriceChart_Click"/>
+                   
+                    
+                    <!--Свечевой график-->
+                    <Grid Grid.Row="1" Grid.ColumnSpan="3">
+                        <lvc:CartesianChart x:Name="candlestickChart" Margin="5" Visibility="Hidden" ZoomingSpeed="10" Zoom="X">
+                            
+                        </lvc:CartesianChart>
+                    </Grid>
+
+                </Grid>
+            </Border>
+            <!--В данном поле отображается график общего объема торгов на рынке, за выбранный период-->
+            <Border  Grid.Row="0" Grid.Column="2"  
+                    Background="#FFFAF9FF"  
+                     Margin="5" CornerRadius="10"
+                     BorderBrush="#FFEDE9FF"
+                     BorderThickness="2">
+                <Grid>
+                    <lvc:CartesianChart Name="volumeChart" LegendLocation="Top" Visibility="Hidden" Margin="5">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Дата торгов" Labels="{Binding XLabels}" />
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Значения торгов" />
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+            </Border>
+            <!--В данном поле будет отображаться  чтото-->
+            <Border  Grid.Row="1" Grid.Column="2"
+                     Background="#FFF1F9FF"
+                     Margin="5" CornerRadius="10"
+                     BorderBrush="#FFE1F1FD"
+                     BorderThickness="2">
+                <Grid Margin="2,0,0,0">
+                   
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"  Text="Волатильность (за год):" FontWeight="Heavy" FontSize="16" VerticalAlignment="Center" Foreground="#FF363636" TextAlignment="Center" FontFamily="Trebuchet MS" />
+                    <TextBlock Grid.Row="1" x:Name="standardDeviationTextBlock" Text="Стандартное отклонение" FontSize="16" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS"/>
+                    <TextBlock Grid.Row="2" x:Name="averageTrueRangeTextBlock" Text="Средний истинный диапазон" FontSize="16" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS"/>
+                    <TextBlock Grid.Row="3" x:Name="volatilityIndexTextBlock" Text="Индекс волатильности" FontSize="16" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS"/>
+                    <TextBlock Grid.Row="4" x:Name="averageDeviationTextBlock" Text="Среднее отклонение" FontSize="16" Foreground="#FF363636" TextAlignment="Justify" FontFamily="Trebuchet MS"/>
+                </Grid>
+
+            </Border>
+            <!--В данном поле отображается  наиболее выросшие и упавшие акции за день (столбчатая диаграмма)-->
+            <Border  Grid.Row="2" Grid.Column="1"  Grid.ColumnSpan="2"
+                     Background="#FFF5FFFD" 
+                     Margin="5" CornerRadius="10"
+                     BorderBrush="#FFE1FDF7" 
+                     BorderThickness="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <RadioButton x:Name="barChartOfRisingStocks" Click="barChartOfRisingStocks_Click" Grid.Row="0" Grid.Column="0"  Margin="5,0,0,0" Content="Диаграмма выросших акций" FontFamily="Verdana" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="#FF5F527C" />
+                    <RadioButton x:Name="barChartOfFallingStocks" Click="barChartOfFallingStocks_Click" Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" Content="Диаграмма упавших акций" FontFamily="Verdana"  VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="#FF5F527C" />
+                    <lvc:CartesianChart Grid.Row="1" Grid.ColumnSpan="2"  Name="stockChart" Margin="5,0,5,5"/> <!--Series="{Binding SeriesCollection}"-->
+                </Grid>
+            </Border>
+            <!--В данном поле будет отображаться что-то, пока не решила-->
+            <Border  Grid.Row="2" Grid.Column="0"  
+                     Background="#FFF5FFFD" 
+                     BorderBrush="#FFE1FDF7"                      
+                     Margin="5" CornerRadius="10"                 
+                     BorderThickness="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Топ акций (в %):" FontWeight="Heavy" FontSize="18" VerticalAlignment="Center" Foreground="#FF363636" TextAlignment="Center" FontFamily="Trebuchet MS" />
+                    <TextBlock Grid.Row="1" Text="Выросшие:" FontSize="16" Foreground="#FF363636" TextAlignment="Center" FontFamily="Trebuchet MS"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Упавшие:" FontSize="16" Foreground="#FF363636" TextAlignment="Center" FontFamily="Trebuchet MS"/>
+
+
+                    <ScrollViewer  Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Auto" >
+                        <TextBlock x:Name="TopRisingStocks"  FontSize="16" Foreground="#FF363636"  FontFamily="Trebuchet MS" Margin="3,0,0,0" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+                    <ScrollViewer  Grid.Row="2" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="TopFallingStocks" FontSize="16" Foreground="#FF363636" FontFamily="Trebuchet MS"  Margin="5,0,0,0" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Page>
